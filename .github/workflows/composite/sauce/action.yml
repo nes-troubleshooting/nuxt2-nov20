@@ -1,0 +1,50 @@
+
+name: Stops Sauce Tunnel
+description: Stops saucelabs tunnel svc
+inputs:
+  npmrc:
+    required: yes
+  command:
+    required: yes
+runs:
+  using: composite
+  steps:
+      # For SauceLabs jobs, we set up a domain which resolves to the machine which launched
+      # the tunnel. We do this because devices are sometimes not able to properly resolve
+      # `localhost` or `127.0.0.1` through the SauceLabs tunnel. Using a domain that does not
+      # resolve to anything on SauceLabs VMs ensures that such requests are always resolved
+      # through the tunnel, and resolve to the actual tunnel host machine (i.e. the CircleCI VM).
+      # More context can be found in: https://github.com/angular/angular/pull/35171.
+
+      # Sets up a local domain in the machine's host file that resolves to the local
+      # host. This domain is helpful in Saucelabs tests where devices are not able to
+      # properly resolve `localhost` or `127.0.0.1` through the sauce-connect tunnel.
+      # sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+      - name: 'Setup & Run SauceLabs Browser Tests'
+        shell: bash
+        run: |
+          cd $HOME
+          wget https://saucelabs.com/downloads/sc-4.9.2-linux.tar.gz
+          tar xvf ./sc-4.9.2-linux.tar.gz
+          export PATH="$HOME/sc-4.9.2-linux/bin:$PATH"
+          cd -
+          source ./.github/workflows/composite/sauce/scripts/env.sh
+          export SAUCE_LOCALHOST_ALIAS_DOMAIN="${{ github.event.repository.name }}.local"
+          echo "127.0.0.1 $SAUCE_LOCALHOST_ALIAS_DOMAIN" | tee -a /etc/hosts
+          # cat /etc/hosts
+          ./.github/workflows/composite/sauce/scripts/sauce-service.sh start-ready-wait
+          echo "${{ inputs.npmrc }}" |  base64 -d > .npmrc
+          npm i
+          rm -rf .npmrc
+          eval "${{ inputs.command }}"
+          ./.github/workflows/composite/sauce/scripts/sauce-service.sh stop
+
+    # - uses: neverendingsupport/actions/sauce/run@851095f4f12567be70df8982210f1cc3d4202b56
+      # Temporarily enable verbose logging to help identify potential issues.
+      #
+      # NOTE:
+      #   The `store_artifacts` step is always run (even if previous steps failed).
+      #   See https://circleci.com/docs/dgeni-configuration-reference#the-when-attribute.
+    # - store_artifacts:
+    #     path: /tmp/${{ github.event.repository.name }}/sauce-service/sauce-connect.log
+    #     destination: sauce-connect.log
