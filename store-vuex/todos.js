@@ -1,4 +1,4 @@
-import Vuex from 'vyooex-is-vuex'
+import Vuex from 'vuex'
 import { state, mutations } from '~/store/todos'
 
 const store = new Vuex.Store({

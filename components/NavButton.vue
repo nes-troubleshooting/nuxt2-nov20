@@ -30,7 +30,7 @@ export default {
 }
 </script>
 <style>
-.back-or-next-button {
+.back-or-next-button{
   min-height: 4.5em;
   border-radius: 5em 5em 5em 5em;
   background-color: #1976d2 !important;

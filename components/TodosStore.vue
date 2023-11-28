@@ -29,7 +29,7 @@
         />
       </div>
       <!-- if using bootstrap -->
-      <div v-if="useBootstrap" class="todo-text-row">
+      <div class="todo-text-row" v-if="useBootstrap">
         <b-form-input
           v-model="text"
           placeholder="What needs to be done?"

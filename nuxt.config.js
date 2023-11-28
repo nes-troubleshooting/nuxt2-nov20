@@ -1,20 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
-import X0 from '@nuxt/friendly-errors-webpack-plugin'
-// import X1 from "@babel/eslint-parser"
-// import X2 from "@babel/plugin-proposal-async-generator-functions"
-// import X3 from "@babel/plugin-proposal-dynamic-import"
-// import X4 from "@babel/plugin-proposal-export-namespace-from"
-// import X5 from "@babel/plugin-proposal-json-strings"
-// import X6 from "@babel/plugin-proposal-logical-assignment-operators"
-// import X7 from "@babel/plugin-proposal-numeric-separator"
-// import X8 from "@babel/plugin-proposal-object-rest-spread"
-// import X9 from "@babel/plugin-proposal-optional-catch-binding"
-// import X10 from "@babel/plugin-proposal-unicode-property-regex"
-// import X11 from "@babel/preset-env"
-// import X12 from "@babel/preset-modules"
+import FriendlyErrorsWebpackPlugin from '@nuxt/friendly-errors-webpack-plugin'
 
 export default {
-
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - a1',
@@ -32,34 +19,20 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-
-  // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '~/assets/app.scss'
   ],
-
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/vuex-store-plugin.js', ssr: true },
     '~/plugins/bootstrap-vue-plugin'
   ],
-
-  // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
-
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
-    // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify'
   ],
-
-  // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
   ],
-
-  // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
@@ -79,9 +52,6 @@ export default {
   },
 
   build: {
-    babel: {
-      babelrc: true
-    },
     optimization: {
       splitChunks: {
         // Do not provide boolean values, set proper configuration
@@ -106,22 +76,41 @@ export default {
     extractCSS: false,
     // Extend the webpack config here
     extend (config, { _isDev, isClient }) {
+      // console.log(JSON.stringify(config, null, 2))
       config.plugins = config.plugins || []
-      // config.plugins.push(new FriendlyErrorsWebpackPlugin())
+      config.plugins.push(new FriendlyErrorsWebpackPlugin())
 
-      ;[
-        new X0()
-        // new X1(),
-        // X2({}),
-        // new X3(),
-        // new X4(),
-        // new X5(),
-        // new X6(),
-        // new X7(),
-        // new X8(),
-        // new X9(),
-        // new X10(),
-      ].forEach(s => config.plugins.push(s))
+      if (config.module && config.module.rules) {
+        // customize configs for the javascript/auto babel rules
+        config
+          .module.rules
+          .filter(r => r.type && r.type === 'javascript/auto' && r.use)
+          .forEach((rule) => {
+            const loaders = rule.use.filter(x => x.loader && x.loader.includes('node_modules/babel-loader'))
+
+            loaders
+              .filter(l => !!l.options)
+              .forEach((loader) => {
+                loader.options.plugins = loader.options.plugins || []
+                ;[
+                  '@babel/plugin-proposal-async-generator-functions',
+                  '@babel/plugin-proposal-export-namespace-from',
+                  '@babel/plugin-proposal-json-strings',
+                  '@babel/plugin-proposal-logical-assignment-operators',
+                  '@babel/plugin-proposal-numeric-separator',
+                  '@babel/plugin-proposal-object-rest-spread',
+                  '@babel/plugin-proposal-optional-catch-binding',
+                  '@babel/plugin-proposal-unicode-property-regex',
+                  '@babel/plugin-transform-optional-chaining'
+                  // The following are suspects:
+                  // '@babel/plugin-proposal-dynamic-import',
+                  // '@babel/plugin-transform-modules-commonjs'
+                  // '@babel/plugin-transform-modules-umd'
+                  // '@babel/plugin-transform-modules-amd'
+                ].forEach(p => loader.options.plugins.push(p))
+              })
+          })
+      }
 
       if (isClient) {
         // Override the default entry

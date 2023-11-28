@@ -99,7 +99,7 @@ export default {
   width: 65%;
 }
 .vuetify-logo {
-  height: 3em !important;
+  height: 3em;
   margin: 0 1em 0 .5em;
   padding: 0 0 0 0;
   width: 4em;
