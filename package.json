@@ -14,14 +14,13 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.2",
-    "bootstrap-vue": "npm:@neverendingsupport/bootstrap-vue2@2.23.2",
+    "bootstrap-vue": "^2.23.1",
     "core-js": "^3.25.3",
-    "nuxt": "npm:@neverendingsupport/nuxt2@2.17.2",
-    "vue": "npm:@neverendingsupport/vue2@2.7.17",
-    "vue-server-renderer": "npm:@neverendingsupport/vue2@2.7.17-server-renderer",
-    "vue-template-compiler": "npm:@neverendingsupport/vue2@2.7.17-template-compiler",
-    "vuetify": "npm:@neverendingsupport/vuetify2@2.7.1",
-    "vyooex-is-vuex": "npm:@neverendingsupport/vuex@4.1.1"
+    "nuxt": "^2.15.8",
+    "vue": "^2.7.10",
+    "vue-server-renderer": "^2.7.10",
+    "vue-template-compiler": "^2.7.10",
+    "vuetify": "2.6.10"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.23.3",
@@ -40,7 +39,7 @@
     "@babel/plugin-transform-optional-chaining": "^7.23.4",
     "@babel/preset-env": "^7.12.17",
     "@babel/preset-modules": "^0.1.6",
-    "@nuxt/types": "npm:@neverendingsupport/nuxt2@2.17.2-types",
+    "@nuxt/types": "^2.15.8",
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/eslint-config-typescript": "^11.0.0",
@@ -83,64 +82,5 @@
     "ts-jest": "^26.0.3",
     "vue-flagpack": "^1.0.1",
     "vue-jest": "^4.0.1"
-  },
-  "overrides": {
-    "nuxt": {
-      ".": "npm:@neverendingsupport/nuxt2@2.17.2"
-    },
-    "@nuxt/babel-preset-app": {
-      ".": "npm:@neverendingsupport/nuxt2@2.17.2-babel-preset-app"
-    },
-    "@nuxt/builder": {
-      ".": "npm:@neverendingsupport/nuxt2@2.17.2-builder"
-    },
-    "@nuxt/cli": {
-      ".": "npm:@neverendingsupport/nuxt2@2.17.2-cli"
-    },
-    "@nuxt/config": {
-      ".": "npm:@neverendingsupport/nuxt2@2.17.2-config"
-    },
-    "@nuxt/core": {
-      ".": "npm:@neverendingsupport/nuxt2@2.17.2-core"
-    },
-    "@nuxt/generator": {
-      ".": "npm:@neverendingsupport/nuxt2@2.17.2-generator"
-    },
-    "@nuxt/nuxt-start": {
-      ".": "npm:@neverendingsupport/nuxt2@2.17.2-nuxt-start"
-    },
-    "@nuxt/server": {
-      ".": "npm:@neverendingsupport/nuxt2@2.17.2-server"
-    },
-    "@nuxt/types": {
-      ".": "npm:@neverendingsupport/nuxt2@2.17.2-types"
-    },
-    "@nuxt/utils": {
-      ".": "npm:@neverendingsupport/nuxt2@2.17.2-utils"
-    },
-    "@nuxt/vue-app": {
-      ".": "npm:@neverendingsupport/nuxt2@2.17.2-vue-app"
-    },
-    "@nuxt/vue-renderer": {
-      ".": "npm:@neverendingsupport/nuxt2@2.17.2-vue-renderer"
-    },
-    "@nuxt/webpack": {
-      ".": "npm:@neverendingsupport/nuxt2@2.17.2-webpack"
-    },
-    "vue": {
-      ".": "npm:@neverendingsupport/vue2@2.7.17"
-    },
-    "vue-server-renderer": {
-      ".": "npm:@neverendingsupport/vue2@2.7.17-server-renderer"
-    },
-    "vue-template-compiler": {
-      ".": "npm:@neverendingsupport/vue2@2.7.17-template-compiler"
-    },
-    "@vue/compiler-sfc": {
-      ".": "npm:@neverendingsupport/vue2@2.7.17-compiler-sfc"
-    },
-    "vue-router": {
-      ".": "npm:@neverendingsupport/vue-router@3.6.6"
-    }
   }
 }
